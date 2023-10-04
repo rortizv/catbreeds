@@ -91,7 +91,7 @@ export class HomePage implements OnInit {
     const toast = await this.toastController.create({
       message: 'You have marked this cat breed as favorite',
       duration: 2000,
-      color: 'success', // Fondo verde
+      color: 'success',
     });
 
     await toast.present();
@@ -103,7 +103,7 @@ export class HomePage implements OnInit {
     const toast = await this.toastController.create({
       message: 'The cat breed is no longer favorite',
       duration: 2000,
-      color: 'warning', // Fondo amarillo
+      color: 'warning',
     });
 
     await toast.present();

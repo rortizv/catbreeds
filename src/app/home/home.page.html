@@ -1,20 +1,64 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
     <ion-title>
-      Blank
+      Catbreeds
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-card *ngFor="let breed of catBreeds">
+    <img alt="{{breed.breedName}}" src="{{breed.imageUrl}}" />
+    <ion-card-header>
+      <ion-card-title>{{breed.breedName}}</ion-card-title>
+      <ion-card-subtitle>Origin: {{breed.origin}}</ion-card-subtitle>
+      <p>Temperament: {{breed.temperament}}</p>
+    </ion-card-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+    <ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
+      <ng-template>
+        <ion-content class="ion-padding">
+          <ion-row class="small-props">
+            <ion-col>
+              <p>Intelligence</p>
+              <p>{{breed.intelligence}}</p>
+            </ion-col>
+            <ion-col>
+              <p>Adaptability</p>
+              <p>{{breed.adaptability}}</p>
+            </ion-col>
+            <ion-col>
+              <p>Affection level</p>
+              <p>{{breed.affectionLevel}}</p>
+            </ion-col>
+          </ion-row>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+
+    <ion-toggle class="fav-toggle" [(ngModel)]="breed.isFavorite"
+      (ionChange)="breed.isFavorite ? markAsFavorite(breed) : unmarkAsFavorite(breed)">
+      Mark as favorite
+    </ion-toggle>
+
+
+    <ion-card-content class="ion-text-wrap">
+      {{ breed.description }}
+    </ion-card-content>
+    <ion-row>
+      <ion-item>
+        <ion-label>See more on Wikipedia: <a href="{{breed.wikipediaUrl}}"
+            target="_blank">{{breed.wikipediaUrl}}</a></ion-label>
+      </ion-item>
+    </ion-row>
+    <ion-button (click)="presentPopover($event)" fill="clear">
+      <ion-icon name="open-outline" slot="end"></ion-icon>
+      Open more properties
+    </ion-button>
+  </ion-card>
+  <ion-infinite-scroll (ionInfinite)="loadMoreData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles"
+      loadingText="Loading more cat breeds..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>
